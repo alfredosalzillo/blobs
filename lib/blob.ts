@@ -16,11 +16,11 @@ export const randomPalette = (): Palette => {
   // random lightness, keeping it quite high here as a stylistic preference
   const lightness = random(75, 95);
   // base color
-  const primary = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  const primary = `hsl(${hue},${saturation}%,${lightness}%)`;
   // almost black, slightly tinted with the base color
-  const dark = `hsl(${hue}, ${saturation}%, 2%)`;
+  const dark = `hsl(${hue},${saturation}%,2%)`;
   // almost white, slightly tinted with the base color
-  const light = `hsl(${hue}, ${saturation}%, 98%)`;
+  const light = `hsl(${hue},${saturation}%,98%)`;
   return {
     primary,
     dark,
@@ -102,7 +102,7 @@ export type Blob = {
 export const randomBlob = (width: number, height: number): Blob => {
   const x = width / 2
   const y = height / 2
-  const size = random(50, 80)
+  const size = random(Math.min(width, height) * 50/299, Math.min(width, height) * 80/200)
   const colors = randomPalette()
   const body = randomBody(x, y, size)
   const maxWidth = size / 2;
