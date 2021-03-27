@@ -6,7 +6,7 @@ import { Blob, randomBlob } from '../../lib/blob.ts';
 import { decodeBlob, encodeBlob, encoderVersion } from '../../lib/blob-encoder.ts';
 
 export const version = encoderVersion;
-export const generateBlobUrl = (host: string, blob: Blob) => `${host}/api/blob?version=${version}&d=${encodeBlob(blob)}`
+export const generateBlobUrl = (host: string, blob: Blob) => encodeURI(`${host}/api/blob?version=${version}&d=${encodeBlob(blob)}`)
 
 export default async (req: ServerRequest) => {
   const host = req.headers.get('x-forwarded-proto')+'://'+req.headers.get('x-forwarded-host')
