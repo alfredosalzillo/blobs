@@ -10,5 +10,8 @@
   "devDependencies": {
     "typescript": "^5.5.3"
   },
-  "private": true
+  "private": true,
+  "volta": {
+    "node": "25.8.0"
+  }
 }
