@@ -3,11 +3,13 @@ import react from "@vitejs/plugin-react";
 import preserveDirectives from "rollup-plugin-preserve-directives";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
+import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import { resolve } from "node:path";
 
 export default defineConfig({
   plugins: [
     react(),
+    cssInjectedByJsPlugin(),
     dts({
       include: ["src"],
       insertTypesEntry: true,
