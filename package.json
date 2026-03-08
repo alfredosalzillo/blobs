@@ -1,19 +1,68 @@
 {
-  "name": "blobs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "name": "@alfredo.salzillo/blobs",
+  "version": "0.1.0",
+  "description": "A React library to generate animated procedural SVG blobs",
+  "keywords": [
+    "react",
+    "svg",
+    "blobs",
+    "procedural",
+    "animated",
+    "generative"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    },
+    "./Blob": {
+      "types": "./dist/Blob/index.d.ts",
+      "import": "./dist/Blob/index.es.js",
+      "require": "./dist/Blob/index.cjs.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc",
+    "build": "vite build",
     "lint": "biome lint .",
     "format": "biome format --write .",
-    "check": "biome check --write ."
+    "check": "biome check --write .",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.6",
-    "typescript": "^5.5.3"
+    "@types/node": "^25.3.5",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.4",
+    "clsx": "^2.1.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "rollup-plugin-preserve-directives": "^0.4.0",
+    "sass": "^1.97.3",
+    "typescript": "^5.5.3",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4"
   },
-  "private": true,
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alfredosalzillo/blobs.git"
+  },
+  "author": "alfredo salzillo <alfredosalzillo93@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alfredosalzillo/blobs/issues"
+  },
+  "funding": {
+    "url": "https://github.com/sponsors/alfredosalzillo"
+  },
   "volta": {
     "node": "25.8.0"
   }
