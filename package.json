@@ -1,6 +1,6 @@
 {
   "name": "@alfredo.salzillo/blobs",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A React library to generate animated procedural SVG blobs",
   "keywords": [
     "react",
@@ -23,6 +23,11 @@
       "types": "./dist/Blob/index.d.ts",
       "import": "./dist/Blob/index.es.js",
       "require": "./dist/Blob/index.cjs.js"
+    },
+    "./StaticBlob": {
+      "types": "./dist/StaticBlob/index.d.ts",
+      "import": "./dist/StaticBlob/index.es.js",
+      "require": "./dist/StaticBlob/index.cjs.js"
     }
   },
   "files": [

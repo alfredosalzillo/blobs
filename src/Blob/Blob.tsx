@@ -3,60 +3,55 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import type { BlobDescriptor, EyeDescriptor, Palette } from "../generate-blob";
+import type { BlobDescriptor } from "../generate-blob";
 import { random, randomItem } from "../random";
-import spline from "../spline";
+import StaticBlob, {
+  type StaticBlobClassNames,
+} from "../StaticBlob/StaticBlob";
 import classes from "./Blob.module.scss";
 
-export type EyeProps = EyeDescriptor & { colors: Palette };
-const Eye: React.FC<EyeProps> = ({ x, y, size, colors }) => (
-  <g transform={`matrix(1,0,0,1,${x},${y})`} className={classes.eye}>
-    <circle
-      r={size}
-      cx="0"
-      cy="0"
-      strokeWidth="2"
-      stroke={colors.dark}
-      fill={colors.light}
-      className={classes.iris}
-    />
-    <circle
-      r={size / 2}
-      cx="0"
-      cy="0"
-      fill={colors.dark}
-      className={classes.pupil}
-      style={{
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        "--radius": `${size / 2}px`,
-      }}
-    />
-  </g>
-);
+export type BlobAnimation =
+  | "eye-roll"
+  | "eye-roll-reverse"
+  | "eye-converge"
+  | "eye-converge-reverse"
+  | "eye-flock";
+
+export type BlobClassNames = StaticBlobClassNames & {
+  animated?: string;
+  roll?: string;
+  rollReverse?: string;
+  converge?: string;
+  convergeReverse?: string;
+  flock?: string;
+};
+
 const animations = [
   "eye-roll",
   "eye-roll-reverse",
   "eye-converge",
   "eye-converge-reverse",
-];
-type Animation = (typeof animations)[number];
-const randomAnimation = () => randomItem<Animation>(animations);
+] as const;
+
+const randomAnimation = () => randomItem<BlobAnimation>([...animations]);
 export type BlobProps = BlobDescriptor & {
   animated?: boolean;
   className?: string;
+  classNames?: BlobClassNames;
 };
 
 const Blob: React.FC<BlobProps> = ({
   animated,
   body,
   className,
+  classNames,
   colors,
   eyes,
   height,
   width,
 }) => {
-  const [animation, setAnimation] = useState<Animation | null>(null);
+  const [animation, setAnimation] = useState<BlobAnimation | null>(null);
+
   useEffect(() => {
     if (!animated) return undefined;
     if (!animation) {
@@ -68,11 +63,10 @@ const Blob: React.FC<BlobProps> = ({
     }
     return undefined;
   }, [animated, animation]);
+
   return (
-    // biome-ignore lint/a11y/noSvgWithoutTitle: allowed
-    // biome-ignore lint/a11y/useKeyWithClickEvents: allowed
-    <svg
-      viewBox={`0 0 ${width} ${height}`}
+    <StaticBlob
+      body={body}
       className={clsx(
         classes.root,
         {
@@ -83,27 +77,30 @@ const Blob: React.FC<BlobProps> = ({
           [classes.convergeReverse]: animation === "eye-converge-reverse",
           [classes.flock]: animation === "eye-flock",
         },
+        {
+          [classNames?.animated || ""]: animated,
+          [classNames?.roll || ""]: animation === "eye-roll",
+          [classNames?.rollReverse || ""]: animation === "eye-roll-reverse",
+          [classNames?.converge || ""]: animation === "eye-converge",
+          [classNames?.convergeReverse || ""]:
+            animation === "eye-converge-reverse",
+          [classNames?.flock || ""]: animation === "eye-flock",
+        },
         className,
       )}
+      classNames={{
+        root: classNames?.root,
+        eye: clsx(classes.eye, classNames?.eye),
+        iris: clsx(classes.iris, classNames?.iris),
+        pupil: clsx(classes.pupil, classNames?.pupil),
+      }}
+      colors={colors}
+      eyes={eyes}
+      height={height}
+      width={width}
       onClick={() => setAnimation("eye-flock")}
-      onAnimationEnd={() => setAnimation("")}
-    >
-      <path
-        d={spline(body, 1, true)}
-        strokeWidth={2}
-        stroke={colors.dark}
-        fill={colors.primary}
-      />
-      <g>
-        {eyes.map((eye) => (
-          <Eye
-            key={[eye.x, eye.y, eye.size].join("-")}
-            {...eye}
-            colors={colors}
-          />
-        ))}
-      </g>
-    </svg>
+      onAnimationEnd={() => setAnimation(null)}
+    />
   );
 };
 export default Blob;

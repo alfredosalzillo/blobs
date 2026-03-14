@@ -26,6 +26,7 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, "src/index.ts"),
         "Blob/index": resolve(__dirname, "src/Blob/index.ts"),
+        "StaticBlob/index": resolve(__dirname, "src/StaticBlob/index.ts"),
       },
       formats: ["es", "cjs"],
       fileName: (format, entryName) => `${entryName}.${format}.js`,
