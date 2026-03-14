@@ -113,16 +113,15 @@ export const generateBlob = (width: number, height: number): BlobDescriptor => {
   const body = randomBody(x, y, size);
   const maxWidth = size / 2;
   const eyes = randomEyes(x, y, maxWidth);
-  const id = Buffer.from(
-    JSON.stringify({
-      x,
-      y,
-      size,
-      colors,
-      body,
-      eyes,
-    }),
-  ).toString("base64");
+  const payload = JSON.stringify({
+    x,
+    y,
+    size,
+    colors,
+    body,
+    eyes,
+  });
+  const id = btoa(payload);
   return {
     id,
     x,

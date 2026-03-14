@@ -4,9 +4,9 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import type { BlobDescriptor, EyeDescriptor, Palette } from "../generate-blob";
-import classes from "./Blob.module.scss";
 import { random, randomItem } from "../random";
 import spline from "../spline";
+import classes from "./Blob.module.scss";
 
 export type EyeProps = EyeDescriptor & { colors: Palette };
 const Eye: React.FC<EyeProps> = ({ x, y, size, colors }) => (
